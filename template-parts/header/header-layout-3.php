@@ -10,6 +10,11 @@
 ?>
 
 <div class="si-header-container">
+        <?php if (get_field('banner_superior', 'option') ) : ?>
+        <div class="si-logo-container center">
+          <?php echo do_shortcode(get_field('shortcode_banner', 'option'))?>
+        </div>
+        <?php endif; ?>
 	<div class="si-logo-container">
 		<div class="si-container">
 

@@ -111,6 +111,15 @@ get_header(); ?>
                               <?php /*
                                 </div> */?>
                             </section>
+                            <?php
+                              $hero = get_field('destacado','option');
+                              if( $hero ): 
+                                if ( $hero['destacado_banner']): ?>
+                                <div class="desta-banner">
+                                  <?php echo do_shortcode($hero['shortcode_banner']); ?>
+                                </div>
+                                <?php endif;
+                              endif; ?>
                         </div>
                     <?php endif; wp_reset_query();?>
                 <?php
@@ -130,7 +139,7 @@ get_header(); ?>
                                   $args = array(
                                       'post_type'        => 'post',
                                       'post_status'      => 'publish',
-                                      'posts_per_page'   => 4,
+                                      'posts_per_page'   => get_sub_field('cantidad'),
                                       'category__not_in' => get_sub_field('excluir_categorias'),
                                       'meta_key'         => 'post_views_count',
                                       'orderby'          => 'meta_value_num',
@@ -149,11 +158,11 @@ get_header(); ?>
                                       <?php while ( $the_query->have_posts() ) : $the_query->the_post(); ?>
                                         <article> 
                                           <header>  
-                                            <h5 class="post-title"> 
+                                            <h3 class="post-title"> 
                                               <a href="<?php the_permalink(); ?>">
                                                 <?php the_title(); ?>
                                               </a>
-                                            </h5> 
+                                            </h3> 
                                           </header> 
                                         </article>
                                   <?php endwhile; ?>
@@ -185,6 +194,7 @@ get_header(); ?>
             // Loop through rows.
             while ( have_rows('contenido') ) : the_row();
                 if( get_row_layout() == 'noticias' ):
+                    $count = 0;
                     $args = array(
                         'post_type'        => 'post',
                         'post_status'      => 'publish',
@@ -228,6 +238,30 @@ get_header(); ?>
 
                                   </article><!-- #post-<?php the_ID(); ?> -->
                               <?php endwhile; ?>
+                              <?php
+                                $hero = get_field('grupo_uno','option');
+                                if( $hero ): 
+                                  if ( $hero['banner_uno']): ?>
+                                    <div class="desta-banner-1"><?php echo do_shortcode($hero['shortcode_banner']); ?></div>
+                                  <?php endif;
+                                endif;
+                              ?>
+                              <?php
+                                $hero = get_field('grupo_dos','option');
+                                if( $hero ): 
+                                  if ( $hero['banner_dos']): ?>
+                                    <div class="desta-banner-2"><?php echo do_shortcode($hero['shortcode_banner']); ?></div>
+                                  <?php endif;
+                                endif;
+                              ?>
+                              <?php
+                                $hero = get_field('grupo_tres','option');
+                                if( $hero ): 
+                                  if ( $hero['banner_tres']): ?>
+                                    <div class="desta-banner-3"><?php echo do_shortcode($hero['shortcode_banner']); ?></div>
+                                  <?php endif;
+                                endif;
+                              ?>
                           </div>
                         </div>
                 <?php

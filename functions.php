@@ -129,7 +129,21 @@ final class Sinatra {
 		require_once SINATRA_THEME_PATH . '/inc/customizer/class-sinatra-customizer.php';
                 
                 //require_once SINATRA_THEME_PATH . '/inc/fdcalendar.php'; // JLMA
+                
+                add_filter('sinatra_main_header_widgets', array( $this, 'fd_header_widgets'), 10,1);
+                add_filter('sinatra_customizer_widgets', array( $this, 'sinatra_customizer_widgets'), 10,1);
 	}
+        public function sinatra_customizer_widgets($widgets){
+          $widgets['finanzas'] = 'Sinatra_Customizer_Widget_Finanzas';
+          $widgets['nav'] = 'Sinatra_Customizer_Widget_Nav';
+          return $widgets;
+        }
+        
+        public function fd_header_widgets($types){
+          $types['finanzas'] = array('max_uses' => 1);
+          $types['nav'] = array('max_uses' => 1);
+          return $types;
+        }
 
 	/**
 	 * Setup objects to be used throughout the theme.
@@ -259,6 +273,30 @@ function rl_posts_search_orderby( $orderby, $query ) {
 	}
 	return $orderby;
 }
+
+if( function_exists('acf_add_options_page') ) {
+    
+    acf_add_options_page(array(
+        'page_title'     => 'Theme Header Settings',
+        'menu_title'    => 'Header',
+        'capability'    => 'edit_posts',
+        'redirect'        => false
+    ));
+    
+}
+
+
+if ( ! function_exists( 'sinatra_header_widget_finanzas' ) ) :
+	/**
+	 * Outputs the header finanzas widget.
+	 *
+	 * @since 1.0.0
+	 * @param array $options Array of widget options.
+	 */
+	function sinatra_header_widget_finanzas( $options ) {
+		get_template_part( 'template-parts/header/widgets/finanzas' );
+	}
+endif;
 
 //add_filter( "wpseo_sitemap_page_content", "add_sitemap_items" );
 

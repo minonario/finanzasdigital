@@ -13,9 +13,29 @@
 
 <?php get_header(); ?>
 
-<div class="si-container">
-
+<?php
+if (is_archive()):
+  $queried_object = get_queried_object();
+  $term_id = $queried_object->term_id;
+  $hero = get_field('superior', 'category_'.$term_id);
+  if( $hero ): 
+    if ( $hero['banner_superior']):
+      $class = ' banner-active';
+    endif;
+  endif;  
+endif;?>
+<div class="si-container<?php echo (isset($class) ? $class : '') ?>">
 	<div id="primary" class="content-area">
+          <?php
+          if (is_archive()):
+            if( $hero ): 
+              if ( $hero['banner_superior']): ?>
+              <div class="ad-banners center">
+                <?php echo do_shortcode($hero['shortcode_banner']); ?>
+              </div>
+              <?php endif;
+            endif; 
+          endif;?>
 
 		<?php do_action( 'sinatra_before_content' ); ?>
 
@@ -26,6 +46,19 @@
 		</main><!-- #content .site-content -->
 
 		<?php do_action( 'sinatra_after_content' ); ?>
+          <?php
+          if (is_archive()):
+            $queried_object = get_queried_object();
+            $term_id = $queried_object->term_id;
+            $hero = get_field('inferior', 'category_'.$term_id);
+            if( $hero ): 
+              if ( $hero['banner_inferior']): ?>
+              <div class="ad-banners-inferior center">
+                <?php echo do_shortcode($hero['shortcode_banner']); ?>
+              </div>
+              <?php endif;
+            endif; 
+          endif;?>
 
 	</div><!-- #primary .content-area -->
 

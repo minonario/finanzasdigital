@@ -15,7 +15,7 @@ $sinatra_sidebar = sinatra_get_sidebar();
 ?>
 
 <aside id="secondary" class="widget-area si-sidebar-container"<?php sinatra_schema_markup( 'sidebar' ); ?> role="complementary">
-
+  <div class="barfd">
 	<div class="si-sidebar-inner">
 		<?php do_action( 'sinatra_before_sidebar' ); ?>
 
@@ -48,7 +48,7 @@ $sinatra_sidebar = sinatra_get_sidebar();
 
 		<?php do_action( 'sinatra_after_sidebar' ); ?>
 	</div>
-
+  </div>
 </aside><!--#secondary .widget-area -->
 
 <?php
