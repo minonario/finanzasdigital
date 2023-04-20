@@ -16,9 +16,30 @@
 
 <?php get_header(); ?>
 
-<div class="si-container">
+<?php
+if (is_single()):
+  $post_id = get_the_ID();
+  $hero = get_field('superior', $post_id);
+  if( $hero ): 
+    if ( $hero['banner_superior']):
+      $class = ' banner-active';
+    endif;
+  endif; 
+endif;?>
+<div class="si-container<?php echo (isset($class) ? $class : '') ?>">
 
 	<div id="primary" class="content-area">
+          
+        <?php
+        if (is_single()):
+          if( $hero ): 
+            if ( $hero['banner_superior']): ?>
+            <div class="ad-banners center">
+              <?php echo do_shortcode($hero['shortcode_banner']); ?>
+            </div>
+            <?php endif;
+          endif; 
+        endif;?>
 
 		<?php do_action( 'sinatra_before_content' ); ?>
 
@@ -28,6 +49,18 @@
 			do_action( 'sinatra_before_singular' );
 
 			do_action( 'sinatra_content_singular' );
+                        
+                        if (is_single()):
+                          $post_id = get_the_ID();
+                          $hero = get_field('inferior', $post_id);
+                          if( $hero ): 
+                            if ( $hero['banner_inferior']): ?>
+                            <div class="ad-banners center">
+                              <?php echo do_shortcode($hero['shortcode_banner']); ?>
+                            </div>
+                            <?php endif;
+                          endif; 
+                        endif;
                         
                         if ($post->post_type == "post"){
                           echo do_shortcode( '[ds8relatedposts]' );
