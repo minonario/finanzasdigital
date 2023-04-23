@@ -132,7 +132,26 @@ final class Sinatra {
                 
                 add_filter('sinatra_main_header_widgets', array( $this, 'fd_header_widgets'), 10,1);
                 add_filter('sinatra_customizer_widgets', array( $this, 'sinatra_customizer_widgets'), 10,1);
+                add_action( 'template_redirect', array( $this, 'fdstatus') );
+                add_filter( 'sinatra_is_colophon_displayed', array( $this, 'fd404footer') ,10, 2 );
+                add_filter( 'sinatra_is_copyright_displayed', array( $this, 'fd404footer') ,10, 2 );
+                add_filter( 'sinatra_is_pre_footer_cta_displayed', array( $this, 'fd404footer') ,10, 2 );
+                add_filter( 'sinatra_is_footer_displayed', array( $this, 'fd404footer') ,10, 2 );
+                
 	}
+        public function fd404footer($footer_displayed) {
+          if (is_404()){
+            $footer_displayed = true;
+          }
+          return $footer_displayed;
+        }
+        public function fdstatus(){
+          if (is_404()){
+            status_header( 404 );
+            get_template_part( 404 );
+            exit();
+          }
+        }
         public function sinatra_customizer_widgets($widgets){
           $widgets['finanzas'] = 'Sinatra_Customizer_Widget_Finanzas';
           $widgets['nav'] = 'Sinatra_Customizer_Widget_Nav';

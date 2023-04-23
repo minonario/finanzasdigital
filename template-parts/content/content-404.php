@@ -17,11 +17,11 @@
 
 	<header class="page-header">
 		<h1 class="page-title"><?php echo wp_kses( __( '404', 'sinatra' ), sinatra_get_allowed_html_tags() ); ?></h1>
-		<p class="h2"><?php echo wp_kses( __( 'Oops! Page not found.', 'sinatra' ), sinatra_get_allowed_html_tags() ); ?></p>
+		<p class="h2"><?php echo wp_kses( __( '¡Lo sentimos! No se ha encontrado la página.', 'sinatra' ), sinatra_get_allowed_html_tags() ); ?></p>
 	</header><!-- .page-header -->
 
 	<div class="page-content si-entry">
-		<p><?php echo wp_kses( __( 'We couldn&rsquo;t find the page you are looking for. Perhaps you can try searching:', 'sinatra' ), sinatra_get_allowed_html_tags() ); ?></p>
+		<p><?php echo wp_kses( __( 'No hemos podido encontrar la página que estás buscando. Quizá puedas intentar una búsqueda o comunicarte con nosotros al correo electrónico info@finanzasdigital.com', 'sinatra' ), sinatra_get_allowed_html_tags() ); ?></p>
 
 		<?php get_search_form(); ?>
 
