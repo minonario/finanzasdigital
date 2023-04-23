@@ -1089,3 +1089,43 @@ body {
   align-items: flex-start !important;
 }
  /*** STICKY ***/
+ 
+#main .error-404 .search-form .search-field {
+    padding-right: 0;
+}
+.error404 .content-area a:not(.si-btn):not(.wp-block-button__link):not(.titulo) {
+    color: #353664;
+}
+.error404 #content {
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto
+}
+.error-404 .page-header p {
+  position: relative
+}
+#page .error-404 .page-header h1.page-title {
+  font-size: 7.5rem;
+  text-align: center
+}
+.error-404 .page-content p {
+  text-align: center
+}
+.error404 .home-top-visitas {
+  padding: 0
+}
+.error404 #topVisitas .title-section {
+  text-align: left
+}
+@media (min-width: 769px) {
+  .error404 #content {
+    -ms-flex: 1 0 auto;
+    flex: 1 0 auto
+  }
+}
+
+.error404 .error-404 .page-content p{
+  max-width: 480px
+}
+.error404 .error-404 {
+  max-width: 600px;
+}
