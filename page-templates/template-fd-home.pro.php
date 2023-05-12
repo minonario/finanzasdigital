@@ -12,7 +12,7 @@
 get_header(); ?>
 
 <div class="si-container">
-	<h1 class="hidden"><?php the_title()?></h1>
+  <h1 class="hidden"><?php the_title()?></h1>
         <?php
         // Check value exists.
         if( have_rows('inicio') ):
@@ -49,7 +49,41 @@ get_header(); ?>
                                     <?php //the_post_thumbnail('full', array('class' => 'post-thumbnail')); ?>
                                       
                                     <?php if ( has_post_thumbnail() ) : ?>
-				    <?php the_post_thumbnail('feature-mobile')?>
+                                    <?php
+                                        $id = get_post_thumbnail_id();
+                                        $alt = get_post_meta( $id, '_wp_attachment_image_alt', true);
+
+                                        /* get the width of the largest cropped image to 
+                                           calculate the breakpoint */
+                                        $hero_cropped_info = 
+                                            wp_get_attachment_image_src( $id, 'full' );
+                                        $breakpoint = absint( $hero_cropped_info[1] ) + 1;
+
+                                        // pass the full image size to these functions
+                                        $hero_full_srcset = 
+                                            wp_get_attachment_image_url($id, 'full');
+                                            //wp_get_attachment_image_srcset( $id, 'full' );
+                                        $hero_full_sizes = 
+                                            wp_get_attachment_image_url($id, 'full');
+                                            //wp_get_attachment_image_sizes( $id, 'full' );
+
+                                        // pass the cropped image size to these functions
+                                        $hero_cropped_srcset = 
+                                            wp_get_attachment_image_srcset($id, 'medium');
+                                            //wp_get_attachment_image_srcset( $id, 'meidum' );
+                                        $hero_cropped_sizes = 
+                                            wp_get_attachment_image_url($id, 'medium');
+                                            //wp_get_attachment_image_sizes( $id, 'medium' );
+                                    ?>
+                                      <picture>
+                                        <source
+                                            media="(min-width: <?php echo '400'; ?>px)"
+                                            srcset="<?php echo esc_attr( $hero_cropped_srcset ); ?>"
+                                             />
+                                        <img srcset="<?php echo esc_attr( $hero_full_srcset ); ?>"
+                                            alt="<?php echo esc_attr( $alt );?>" loading="lazy"
+                                             />
+                                      </picture>
                                     <?php endif; ?>
 
                                     </a>
@@ -64,7 +98,7 @@ get_header(); ?>
                                 <?php $count++;
                                       endwhile; ?>
                                 </div>
-				<div class="navigationx">
+                                <div class="navigationx">
                                   <span id="prev-btn" class="btnx prev-btn"></span>
                                   <span id="next-btn" class="btnx next-btn"></span>
                                 </div>
@@ -109,11 +143,11 @@ get_header(); ?>
                                       'category__not_in' => get_sub_field('excluir_categorias'),
                                       'meta_key'         => 'post_views_count',
                                       'orderby'          => 'meta_value_num',
-                                      'date_query' => array(
+                                      /*'date_query' => array(
                                                             array(
                                                               'after' => '1 week ago'
                                                             )
-                                                          ),
+                                                          ),*/
                                       'order'            => 'DESC'
                                   );
                                   // query
@@ -160,6 +194,7 @@ get_header(); ?>
             // Loop through rows.
             while ( have_rows('contenido') ) : the_row();
                 if( get_row_layout() == 'noticias' ):
+                    $count = 0;
                     $args = array(
                         'post_type'        => 'post',
                         'post_status'      => 'publish',
@@ -276,14 +311,10 @@ get_header(); ?>
           
           
         ?>
+          <ul>
+            
+          </ul>
         <?php
-        endif;
-        if ( have_posts() ) :
-                while ( have_posts() ) :
-                        the_post();
-
-                        get_template_part( 'template-parts/content/content', 'home' );
-                endwhile;
         endif;
         ?>
         </div><!-- #primary .content-area -->
