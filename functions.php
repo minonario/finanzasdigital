@@ -137,8 +137,79 @@ final class Sinatra {
                 add_filter( 'sinatra_is_copyright_displayed', array( $this, 'fd404footer') ,10, 2 );
                 add_filter( 'sinatra_is_pre_footer_cta_displayed', array( $this, 'fd404footer') ,10, 2 );
                 add_filter( 'sinatra_is_footer_displayed', array( $this, 'fd404footer') ,10, 2 );
+                add_action( 'after_setup_theme', array( $this, 'ds8_setup_theme') );
+                add_action( 'init', array( $this, 'ds8_remove_plugin_filter') );
                 
 	}
+        public function ds8_remove_plugin_filter(){
+            global $heateor_sss;
+            if ($heateor_sss) {
+              $public_sss = $heateor_sss->plugin_public;
+              remove_action( 'wp_enqueue_scripts', array( &$public_sss, 'frontend_inline_style' ) );
+              add_action('wp_enqueue_scripts', array($this, 'ds8_all_css') );
+            }
+        }
+        public function ds8_all_css(){
+            $upload_dir = wp_upload_dir();
+            $dynamic_css_uri  = trailingslashit( set_url_scheme( $upload_dir['baseurl'] ) ) . 'sinatra/';
+	    $dynamic_css_path = trailingslashit( set_url_scheme( $upload_dir['basedir'] ) ) . 'sinatra/';
+            
+            $exists = file_exists( $dynamic_css_path . 'dynamic-styles-rrss.css' );
+
+            // Generate the file if it's missing.
+            if ( ! $exists ) {
+                    $exists = $this->update_dynamic_file();
+            }
+
+            // Enqueue the file if available.
+            if ( $exists ) {
+                    wp_enqueue_style(
+                            'ds8-dynamic-styles',
+                            $dynamic_css_uri . 'dynamic-styles-rrss.css',
+                            false,
+                            filemtime( $dynamic_css_path . 'dynamic-styles-rrss.css' ),
+                            'all'
+                    );
+            }
+        }
+        public function update_dynamic_file() {
+              $upload_dir = wp_upload_dir();
+              $dynamic_css_uri  = trailingslashit( set_url_scheme( $upload_dir['baseurl'] ) ) . 'sinatra/';
+              $dynamic_css_path = trailingslashit( set_url_scheme( $upload_dir['basedir'] ) ) . 'sinatra/';
+              
+              ob_start();
+              global $heateor_sss;
+              //$public_sss = $heateor_sss->plugin_public;
+              include('assets/css/ds8-css.php');
+              $css = ob_get_clean();
+
+              if ( empty( $css ) || '' === trim( $css ) ) {
+                      return;
+              }
+
+              // Load file.php file.
+              require_once ABSPATH . 'wp-admin' . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'file.php'; // phpcs:ignore
+
+              global $wp_filesystem;
+
+              // Check if the the global filesystem isn't setup yet.
+              if ( is_null( $wp_filesystem ) ) {
+                      WP_Filesystem();
+              }
+
+              $wp_filesystem->mkdir( $dynamic_css_path );
+
+              if ( $wp_filesystem->put_contents( $dynamic_css_path . 'dynamic-styles-rrss.css', $css ) ) {
+                      //$this->clean_cache();
+                      //set_transient( 'ds8_has_dynamic_css', true, 0 );
+                      return true;
+              }
+
+              return false;
+      }
+        public function ds8_setup_theme(){
+            add_image_size('feature-mobile', 375, 200);
+        }
         public function fd404footer($footer_displayed) {
           if (is_404()){
             $footer_displayed = true;
@@ -316,6 +387,19 @@ if ( ! function_exists( 'sinatra_header_widget_finanzas' ) ) :
 		get_template_part( 'template-parts/header/widgets/finanzas' );
 	}
 endif;
+
+add_filter('sinatra_get_post_media', 'ds8_home_images', 10, 3);
+if ( ! function_exists( 'ds8_home_images' ) ) :
+    function ds8_home_images($return, $post_format, $post){
+          if ( has_post_thumbnail( $post ) && is_front_page() ) {
+                  $return = sinatra_get_post_thumbnail( $post, 'feature-mobile', false );
+          } elseif ( 'image' === $post_format ) {
+                  $return = sinatra_get_image_from_post( $post );
+          }
+          return $return;
+    }
+endif;
+				
 
 //add_filter( "wpseo_sitemap_page_content", "add_sitemap_items" );
 

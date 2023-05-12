@@ -868,6 +868,9 @@ ul.otros_titulares {
     font-size: 1rem;
     line-height: 1.2
   }
+  .si-blog-layout-1 .sinatra-article .entry-media img {
+    width: 100%
+  }
 }
 .home .si-container, .alignfull.si-wrap-content>div, #main .si-container, #sinatra-header .si-container, .page-header .si-container, #sinatra-footer .si-container {
   padding: 0 30px
@@ -1128,4 +1131,15 @@ body {
 }
 .error404 .error-404 {
   max-width: 600px;
+}
+
+.fdhome {
+  display: none
+}
+
+@media (max-width: 320px) {
+  .grid:not(.nl) article {
+      width: inherit;
+      margin: 0 30px 0.5rem;
+  }
 }
