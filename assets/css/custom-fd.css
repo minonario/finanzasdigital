@@ -513,7 +513,7 @@ img {
   border-radius: 0;
 }
 .home.sinatra-sidebar-position__right-sidebar #primary {
-  padding-right: 0;
+  padding-right: 4px
 }
 #main>.si-container #secondary {
   padding-left: 1rem;
@@ -1124,6 +1124,9 @@ body {
     -ms-flex: 1 0 auto;
     flex: 1 0 auto
   }
+  #colophon #custom_html-2 .widget-title {
+    font-size: .9375rem !important;
+  }
 }
 
 .error404 .error-404 .page-content p{
@@ -1142,4 +1145,16 @@ body {
       width: inherit;
       margin: 0 30px 0.5rem;
   }
+}
+@media (max-width: 768px) {
+  body {
+    font-size: 1.11rem;
+    line-height: 1.25
+  }
+  .boton-suscribir {
+    font-size: 1.11rem !important;
+  }
+}
+.adrotate_widgets .g-single, .adrotate_widgets .a-single {
+  margin-bottom: 20px
 }

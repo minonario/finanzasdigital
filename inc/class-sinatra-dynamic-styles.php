@@ -1203,9 +1203,10 @@ if ( ! class_exists( 'Sinatra_Dynamic_Styles' ) ) :
 			// Blog Single Post - Content Font Size.
 			$css .= $this->get_range_field_css( '.single-post .entry-content', 'font-size', 'single_content_font_size', true );
 			//JLMA Marzo2023
-                        $css .= $this->get_range_field_css( '.single #content.site-content', 'font-size', 'single_content_font_size', true );
-                        $css .= $this->get_range_field_css( '.category .entry-summary.si-entry', 'font-size', 'single_content_font_size', true );
-                        $css .= $this->get_range_field_css( '.archive.tag .entry-summary.si-entry', 'font-size', 'single_content_font_size', true );
+      $css .= $this->get_range_field_css( '.single #content.site-content', 'font-size', 'single_content_font_size', true );
+      $css .= $this->get_range_field_css( '.category .entry-summary.si-entry', 'font-size', 'single_content_font_size', true );
+      $css .= $this->get_range_field_css( '.page #primary .entry-content', 'font-size', 'single_content_font_size', true );
+      $css .= $this->get_range_field_css( '.archive.tag .entry-summary.si-entry', 'font-size', 'single_content_font_size', true );
 
 			// Blog Single Post - narrow container.
 			if ( 'narrow' === sinatra_option( 'single_content_width' ) ) {
